@@ -1,14 +1,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const dotenv = require("dotenv");
 
 const bookRoutes = require("./routes/bookRoutes");
 const authRoutes = require("./routes/authRoutes");
 const path = require("path");
 
+const dotenv = require("dotenv");
+
 const app = express();
 
-dotenv.config();
+require("dotenv").config();
 
 // Connexion à MongoDB
 mongoose

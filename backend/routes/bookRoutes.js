@@ -7,12 +7,12 @@ const compressImage = require("../middleware/compressImage");
 
 router.get("/bestrating", bookController.getBestRatedBooks);
 router.get("/:id", bookController.getOneBook);
-router.put("/:id", auth, multer, compressImage, bookController.modifyBook);
-router.delete("/:id", auth, bookController.deleteBook);
-
 router.get("/", bookController.getAllBooks);
-router.post("/", auth, multer, compressImage, bookController.createBook);
 
 router.post("/:id/rating", auth, bookController.rateBook);
+router.post("/", auth, multer, compressImage, bookController.createBook);
+
+router.put("/:id", auth, multer, compressImage, bookController.modifyBook);
+router.delete("/:id", auth, bookController.deleteBook);
 
 module.exports = router;
