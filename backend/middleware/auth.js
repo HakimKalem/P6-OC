@@ -3,9 +3,6 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const tokenSecret = process.env.TOKEN_SECRET;
 
-console.log("Token Secret:", tokenSecret);
-console.log("auth OK");
-
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1];

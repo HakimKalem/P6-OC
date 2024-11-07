@@ -17,9 +17,6 @@ exports.getOneBook = (req, res) => {
 
 // Contrôleur pour créer un livre
 exports.createBook = (req, res) => {
-  console.log("Données reçues (req.body.book) :", req.body.book); // Vérifie le contenu brut
-  console.log("Fichier reçu :", req.file); // Vérifie que l'image est bien reçue
-
   const bookData = JSON.parse(req.body.book);
 
   delete bookData._id;
@@ -78,7 +75,7 @@ exports.modifyBook = (req, res, next) => {
 exports.deleteBook = (req, res, next) => {
   Book.findOne({ _id: req.params.id })
     .then((book) => {
-      if (book.userId != req.auth.userId) {
+      if (book.userId !== req.auth.userId) {
         return res.status(403).json({ message: "Requête non autorisée" });
       } else {
         const filename = book.imageUrl.split("/images/")[1];
@@ -109,7 +106,6 @@ exports.rateBook = async (req, res) => {
     }
 
     const book = await Book.findById(req.params.id);
-    console.log(book);
     if (!book) {
       return res.status(404).json({ message: "Livre non trouvé." });
     }
@@ -125,13 +121,10 @@ exports.rateBook = async (req, res) => {
     const sumRatings = book.ratings.reduce((acc, r) => acc + (r.grade || 0), 0);
     book.averageRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
 
-    console.log("Livre avant sauvegarde :", book);
-
     await book.save();
 
     res.status(200).json(book);
   } catch (error) {
-    console.error("Erreur lors de l'ajout de la note :", error);
     res.status(500).json({ error });
   }
 };

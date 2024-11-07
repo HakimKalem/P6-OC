@@ -12,8 +12,6 @@ const compressImage = (req, res, next) => {
     .webp({ quality: 75 })
     .toFile(compressedPath, (error) => {
       if (error) {
-        console.error("Erreur de compression:", error);
-
         fs.unlinkSync(originalPath);
         return res
           .status(500)
