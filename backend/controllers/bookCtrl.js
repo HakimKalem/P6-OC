@@ -1,3 +1,4 @@
+const path = require("path");
 const Book = require("../models/Book");
 const fs = require("fs");
 
@@ -78,11 +79,15 @@ exports.deleteBook = (req, res, next) => {
       if (book.userId !== req.auth.userId) {
         return res.status(403).json({ message: "Requête non autorisée" });
       } else {
-        const filename = book.imageUrl.split("/images/")[1];
+        const filename = path.basename(book.imageUrl);
+
         fs.unlink(`images/${filename}`, (err) => {
           if (err) {
-            return res.status(500).json({ error: err });
+            console.error("Erreur lors de la suppression de l'image:", err);
+          } else {
+            console.log("Image supprimée avec succès");
           }
+
           Book.deleteOne({ _id: req.params.id })
             .then(() =>
               res.status(200).json({ message: "Livre supprimé avec succès !" })
